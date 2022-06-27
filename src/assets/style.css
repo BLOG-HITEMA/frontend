@@ -1,0 +1,52 @@
+/* --- App --- */
+html, body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+} 
+#app{
+    min-height: 100%;
+    font-family: "Poppins", sans-serif;
+    /* Define color system */
+    --white-color: 255, 255, 255; /* #FFFFFF */
+    --blue-color: 86, 83, 181; /* #5653B5 */
+    --green-color: 135, 215, 73; /* #87D749 */
+    --red-color: 215, 99, 73; /* #D76349 */
+    --orange-color: 255, 194, 93; /* #FFC25D */
+    --grey-color: 199, 199, 199; /* #C7C7C7 */
+    --background-grey-color: 74, 73, 108; /* #4A496C */
+}
+/* --- Text --- */
+.title{
+    font-size: 32px;
+    font-weight: 400;
+}
+.subtitle{
+    font-size: 24px;
+    font-weight: 400;
+}
+.text{
+    font-size: 16px;
+    font-weight: 400;
+}
+.subtext{
+    font-size: 12px;
+    font-weight: 400;
+}
+/* Color text */
+.text-grey{
+    color: rgba(var(--grey-color));
+}
+.text-blue{
+    color: rgba(var(--blue-color));
+}
+.text-red{
+    color: rgba(var(--red-color));
+}
+.text-green{
+    color: rgba(var(--green-color));
+}
+.text-orange{
+    color: rgba(var(--orange-color));
+}
