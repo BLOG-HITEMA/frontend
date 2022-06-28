@@ -3,10 +3,12 @@ import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
 import { useAuthService } from "@/services/authService";
 import { useRouter } from "vue-router";
-import { useToast } from 'vue-toastification';
+import { useToastService } from "../services/toastService";
+/*import { useToast } from 'vue-toastification';*/
 import Joi from "joi";
-
 import { ref } from "vue";
+
+const {errorToast, successToast} = useToastService();
 
 const { connect, auth } = useAuthService();
 const router = useRouter();
@@ -17,7 +19,7 @@ const erroremail = ref('');
 const errorpassword = ref('');
 
 // envoie un toast quand je recois une erreur et quand je me connect
-const toast = useToast();
+/*const toast = useToast();
 function displayToast(msg, type = "info"){
     switch (type) {
         case "info":
@@ -36,7 +38,7 @@ function displayToast(msg, type = "info"){
             toast.default(msg);
             break;
     }
-}
+}*/
 
 // Fonction de connexion
 async function connexion() {
@@ -69,10 +71,10 @@ async function connexion() {
     // Fonction pour ce connecter
     const response = await connect(email.value, password.value);
     if (!response) {   
-      displayToast("Cette identifiant n'exite pas", "error");
+      errorToast("Cette identifiant n'exite pas");
       return null;
     } else {
-      displayToast("Vous êtes connceter", "success");
+      successToast("Vous êtes connecté");
       router.push({ name: "home" });
     }
   }
