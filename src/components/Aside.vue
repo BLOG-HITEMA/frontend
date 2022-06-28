@@ -3,9 +3,17 @@ import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthService } from '../services/authService';
 
-const {auth, disconnect} = useAuthService();
-
-    const active = ref(true);
+    const {auth, disconnect} = useAuthService();
+    defineProps({
+        active: {
+            type: Boolean,
+            default: true
+        },
+        toggle: {
+            type: Function,
+            default: () => {}
+        }
+    });
 </script>
 <template>
     <aside :class="active ? 'no-collapsed' : 'collapsed'">
@@ -19,6 +27,7 @@ const {auth, disconnect} = useAuthService();
                 </li>
             </ul>
         </nav>
+    <button @click="toggle()">Hello World</button>
     </aside>
 </template>
 <style scoped>
