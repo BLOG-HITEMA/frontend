@@ -3,43 +3,49 @@ import { RouterLink } from 'vue-router';
 import { useAuthService } from '../services/authService';
 import Button from './Button.vue';
 
-const {auth, disconnect} = useAuthService();
+defineProps({
+    toggle: {
+        type: Function,
+        default: () => {}
+    },
+    isMobile: {
+        type: Boolean
+    }
+});
+const {auth} = useAuthService();
 </script>
 <template>
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <RouterLink class="navbar-brand" to="/">Accueil</RouterLink>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item" v-if="auth">
-                <RouterLink class="nav-link active" to="/testauth">Test page with Auth Guard</RouterLink>
-            </li>
-            <li class="nav-item" v-if="!auth">
-                <RouterLink class="nav-link" to="/test">Test page without Auth Guard</RouterLink>
-            </li>
-            <li class="nav-item" v-if="auth">
-                <RouterLink class="nav-link" data-test-profil='loick' :to="`/user/${auth.id}`">{{auth.name}}</RouterLink>
-            </li>
-        </ul>
-
-        <RouterLink v-if="!auth" class="me-2 buttonLien" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
-        <RouterLink v-if="!auth" class=" buttonLien" to="/register">Inscription</RouterLink>
-        
-        <Button v-if="auth" :classSup="'ms-auto'" :text="'Déconnexion'" :click="disconnect"/>
+        <Button @click="toggle()" :text="'<<'" :classSup="'me-3 py-2 px-3'" :color="'white'"/>
+        <RouterLink class="brand title" to="/">Write it !</RouterLink>
+        <RouterLink v-if="auth" class="profil-link px-3 py-2" data-test-profil='loick' :to="`/user/${auth.id}`">Profil</RouterLink>
+        <RouterLink v-if="!isMobile && !auth" class="ms-auto me-2 linkAsBtn" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
+        <RouterLink v-if="!isMobile && !auth" class="linkAsBtn" to="/register">Inscription</RouterLink>
     </div>
 </nav>
 </template>
 
 <style scoped>
-.buttonLien{
-    transition: all 0.15s ease-in-out;
-    background-color: rgba(var(--blue-color));
-    box-shadow: 0px 0px 5px 2px rgba(var(--blue-color), 0.5);
-    border: none;
-    height: 48px;
-    padding: 11px 24px;
-    border-radius: 5px;
-    color: rgba(var(--white-color));
-    text-decoration: none;
+nav{
+    padding: 16px 8px;
+    box-shadow: 2px 0px 5px 2px rgba(var(--grey-color), 0.5);
 }
-
+.brand{
+    text-decoration: none;
+    color: rgba(var(--blue-color));
+    font-weight: 700;   
+}
+.profil-link{
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    color: rgba(var(--blue-color));
+    font-weight: 700;
+    border-radius: 5px;
+}
+.profil-link:hover{
+    transition: all 0.3s ease-in-out;
+    background-color: rgba(var(--blue-color));
+    color: white;
+}
 </style>

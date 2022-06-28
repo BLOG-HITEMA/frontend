@@ -12,7 +12,7 @@ vi.mock("@/services/authService.js", () => {
     return {
       auth: vi
         .fn()
-        .mockResolvedValue({id:1, name:"Hommet", firstname:"Loick"}),
+        .mockResolvedValue({id:1, name:"Loick", firstname:"Hommet"}),
     };
   }
   return { useAuthService };
@@ -28,7 +28,8 @@ describe('Test du header connecter', () => {
         plugins: [router]
       }
     })
-    const aRef = wrapper.find("a[data-test-profil='loick']")
+    const aRef = wrapper.find("a[data-test-profil='loick']");
+    console.log(aRef.text())
     expect(aRef.text()).toBe("Loick")
   })
 
