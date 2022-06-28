@@ -20,10 +20,10 @@ import { useAuthService } from '../services/authService';
         <nav>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <RouterLink class="nav-link active" to="/testauth">Accueil</RouterLink>
+                    <RouterLink class="nav-link active" to="/" data-test-id="accueilAside">Accueil</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link" to="/test">Recherche</RouterLink>
+                    <RouterLink class="nav-link" to="/" data-test-id="searchAside">Recherche</RouterLink>
                 </li>
             </ul>
         </nav>
