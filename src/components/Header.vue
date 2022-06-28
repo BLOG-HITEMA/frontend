@@ -16,6 +16,9 @@ const {auth, disconnect} = useAuthService();
             <li class="nav-item" v-if="!auth">
                 <RouterLink class="nav-link" to="/test">Test page without Auth Guard</RouterLink>
             </li>
+            <li class="nav-item" v-if="auth">
+                <RouterLink class="nav-link" data-test-profil='loick' :to="`/user/${auth.id}`">{{auth.name}}</RouterLink>
+            </li>
         </ul>
         <Button v-if="auth" :classSup="'ms-auto'" :text="'Déconnexion'" :click="disconnect"/>
     </div>
