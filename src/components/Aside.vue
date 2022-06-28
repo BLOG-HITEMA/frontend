@@ -10,10 +10,6 @@ import Button from './Button.vue';
             type: Boolean,
             default: true
         },
-        toggle: {
-            type: Function,
-            default: () => {}
-        },
         isMobile: {
             type: Boolean
         }
@@ -37,7 +33,7 @@ import Button from './Button.vue';
         <div class="mt-auto mb-4 text-center">
             <RouterLink v-if="isMobile && !auth" class="d-block linkAsBtn mb-4" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
             <RouterLink v-if="isMobile && !auth" class="linkAsBtn" to="/register">Inscription</RouterLink>
-            <Button v-if="auth" :text="'Déconnexion'" @click="disconnect()"/>
+            <Button v-if="auth" :text="'Déconnexion'" @click="disconnect()" data-test-id="deconnexion"/>
         </div>
     </aside>
 </template>
