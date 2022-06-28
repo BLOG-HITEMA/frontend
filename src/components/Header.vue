@@ -20,7 +20,26 @@ const {auth, disconnect} = useAuthService();
                 <RouterLink class="nav-link" data-test-profil='loick' :to="`/user/${auth.id}`">{{auth.name}}</RouterLink>
             </li>
         </ul>
+        
+        <RouterLink v-if="!auth" class="me-2 buttonLien" to="/login">Connexion</RouterLink>
+        <RouterLink v-if="!auth" class=" buttonLien" to="/register">Inscription</RouterLink>
+        
         <Button v-if="auth" :classSup="'ms-auto'" :text="'Déconnexion'" :click="disconnect"/>
     </div>
 </nav>
 </template>
+
+<style scoped>
+.buttonLien{
+    transition: all 0.15s ease-in-out;
+    background-color: rgba(var(--blue-color));
+    box-shadow: 0px 0px 5px 2px rgba(var(--blue-color), 0.5);
+    border: none;
+    height: 48px;
+    padding: 8px 24px;
+    border-radius: 5px;
+    color: rgba(var(--white-color));
+    text-decoration: none;
+}
+
+</style>
