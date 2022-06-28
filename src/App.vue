@@ -3,14 +3,8 @@ import { RouterView } from 'vue-router';
 import Header from './components/Header.vue';
 import Aside from './components/Aside.vue';
 import { ref } from 'vue';
-<<<<<<< HEAD
 
     const activeAside = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? false : true);
-=======
-import { computed } from '@vue/reactivity';
-
-    const activeAside = ref(true);
->>>>>>> 8c78f5af58d2fb56b1f9d0a9136a1a5bb9425c92
     const isMobile = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false);
     const toggleActiveAside = () => {
         activeAside.value = !activeAside.value;
