@@ -36,7 +36,7 @@ const {auth, disconnect} = useAuthService();
     box-shadow: 0px 0px 5px 2px rgba(var(--blue-color), 0.5);
     border: none;
     height: 48px;
-    padding: 8px 24px;
+    padding: 11px 24px;
     border-radius: 5px;
     color: rgba(var(--white-color));
     text-decoration: none;
