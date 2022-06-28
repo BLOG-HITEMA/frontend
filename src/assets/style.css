@@ -71,3 +71,7 @@ main{
     color: rgba(var(--white-color));
     text-decoration: none;
 }
+.linkAsBtn:hover{
+    color: white;
+    background-color: rgba(var(--blue-color), 0.7);
+}
