@@ -20,6 +20,7 @@ html, body{
     --red-color: 215, 99, 73; /* #D76349 */
     --orange-color: 255, 194, 93; /* #FFC25D */
     --grey-color: 199, 199, 199; /* #C7C7C7 */
+    --grey-light-color: 244, 244, 244; /* #f4f4f4 */
     --background-grey-color: 74, 73, 108; /* #4A496C */
 }
 main{
@@ -57,4 +58,16 @@ main{
 }
 .text-orange{
     color: rgba(var(--orange-color));
+}
+/* Custom CSS */
+.linkAsBtn{
+    transition: all 0.15s ease-in-out;
+    background-color: rgba(var(--blue-color));
+    box-shadow: 0px 0px 5px 2px rgba(var(--blue-color), 0.5);
+    border: none;
+    height: 48px;
+    padding: 11px 24px;
+    border-radius: 5px;
+    color: rgba(var(--white-color));
+    text-decoration: none;
 }

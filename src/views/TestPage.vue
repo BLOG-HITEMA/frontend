@@ -78,10 +78,10 @@ function displayToast(msg, type = "info"){
             </form>
             <div class="col-12">
                 <h3>Notification</h3>
-                <Button :color="'blue'" :text="'Notification info'" :classSup="'m-2'" :click="() => displayToast('Hello Info')"/>
-                <Button :color="'green'" :text="'Notification success'" :classSup="'m-2'" :click="() => displayToast('Hello Success', 'success')"/>
-                <Button :color="'red'" :text="'Notification error'" :classSup="'m-2'" :click="() => displayToast('Hello Error', 'error')"/>
-                <Button :color="'orange'" :text="'Notification warning'" :classSup="'m-2'" :click="() => displayToast('Hello Warning', 'warning')"/>
+                <Button :color="'blue'" :text="'Notification info'" :classSup="'m-2'" @click="displayToast('Hello Info')"/>
+                <Button :color="'green'" :text="'Notification success'" :classSup="'m-2'" @click="displayToast('Hello Success', 'success')"/>
+                <Button :color="'red'" :text="'Notification error'" :classSup="'m-2'" @click="displayToast('Hello Error', 'error')"/>
+                <Button :color="'orange'" :text="'Notification warning'" :classSup="'m-2'" @click="displayToast('Hello Warning', 'warning')"/>
             </div>
         </div>
     </main>

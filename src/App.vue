@@ -12,9 +12,9 @@ import { ref } from 'vue';
 </script>
     
 <template>
-    <Aside :active="activeAside"/>
+    <Aside :active="activeAside" :isMobile="isMobile"/>
     <div :class="`container-custom ${isMobile ? (activeAside ? 'collapsed-r' : 'no-collapsed-r') : ''}`">
-        <Header :toggle="toggleActiveAside"/>
+        <Header :toggle="toggleActiveAside" :isMobile="isMobile"/>
         <RouterView />
     </div>
 </template>

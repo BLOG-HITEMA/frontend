@@ -53,6 +53,11 @@ button.green{
     background-color: rgba(var(--green-color));
     box-shadow: 0px 0px 5px 2px rgba(var(--green-color), 0.5);
 }
+button.white{
+    color: black;
+    background-color: rgba(var(--white-color));
+    border: 2px solid rgba(var(--blue-color), 0.5);
+}
 button:hover{
     transition: all 0.15s ease-in-out;
 }
@@ -67,6 +72,10 @@ button.orange:hover{
 }
 button.green:hover{
     background-color: rgba(var(--green-color), 0.7);
+}
+button.white:hover{
+    background-color: rgba(var(--blue-color));
+    color: white;
 }
 button:disabled{
     color: rgba(var(--background-grey-color));
