@@ -18,12 +18,14 @@ function useAuthService(){
 }
 async function connect(email, password){
     if (email && password) {
-        const response = await axios.post('http://localhost:3001/login', {"email": email,"password": password}).then(res => res).catch(err => err);
+        console.log(email, ' ', password)
+        const response = await axios.post('http://localhost:3001/api/users/login', {"email": email,"password": password}).then(res => res).catch(err => err);
+
         if (response.status !== 200) {
             return null;
         }
         localStorage.setItem('token-projectm1', response.headers['x-auth-token']);
-        return auth.value = response.data.auth;
+        return  response.data.message;
     }
     else{
         return null;
