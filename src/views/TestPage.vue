@@ -4,16 +4,19 @@ import Button from '../components/Button.vue';
 import { ref } from 'vue';
 import Select from '../components/Select.vue';
 import { useToast } from 'vue-toastification';
+import TextArea from '../components/TextArea.vue';
 
 // Form variables
 const number = ref('');
 const radio = ref('');
 const check = ref([]);
 const select = ref('');
+const textarea = ref('');
 function displayForm(){
     console.log(number.value);
     console.log(radio.value);
     console.log(select.value);
+    console.log(textarea.value);
     console.log(JSON.stringify(check.value))
 }
 
@@ -65,6 +68,8 @@ function displayToast(msg, type = "info"){
                 
                 <Select :options="[{value: '1', text: 'Choix 1'},{value: '2', text: 'Choix 2'}]" :selectName="'selectChoix'" v-model="select" :classSup="'w-100'"/>
                 <Select :error="'Je suis une erreur'" :options="[{value: '1', text: 'Choix 1'},{value: '2', text: 'Choix 2'}]" :selectName="'selectChoixError'" :classSup="'w-100'"/>
+                
+                <TextArea :id="'txtArea'" :placeholder="'Renseignez votre article'" :label="'Text Area Test'" :classSup="'w-100'" v-model="textarea"/>
                 
                 <Button :type="'submit'" :text="'Bouton couleur par défaut'" :classSup="'w-100 mb-3'" />
                 <Button :type="'submit'" :color="'green'" :text="'Bouton vert'"/>
