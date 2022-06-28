@@ -28,13 +28,14 @@
             default: ''
         },
         modelValue: {
-            type: [String, Number, Array]
+            type: String
         }
     });
+    defineEmits(['update:modelValue']);
 </script>
 <template>
     <label class="text d-block mb-2" :for="id">{{label}}</label>
-    <textarea :class="`text mb-3 ${classSup}`" :id="id" :name="name" :rows="rows" :cols="cols" :placeholder="placeholder" :value="modelValue"></textarea>
+    <textarea :class="`text mb-3 ${classSup}`" :id="id" :name="name" :rows="rows" :cols="cols" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></textarea>
 </template>
 <style scoped>
 
