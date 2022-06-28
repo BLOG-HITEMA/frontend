@@ -2,12 +2,20 @@
 import { RouterView } from 'vue-router';
 import Header from './components/Header.vue';
 import Aside from './components/Aside.vue';
-</script>
+import { ref } from 'vue';
+import { computed } from '@vue/reactivity';
 
+    const activeAside = ref(true);
+    const isMobile = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false);
+    const toggleActiveAside = () => {
+        activeAside.value = !activeAside.value;
+    }
+</script>
+    
 <template>
-    <Aside />
-    <div class="container-custom">
-        <Header />
+    <Aside :active="activeAside"/>
+    <div :class="`container-custom ${isMobile ? (activeAside ? 'collapsed-r' : 'no-collapsed-r') : ''}`">
+        <Header :toggle="toggleActiveAside"/>
         <RouterView />
     </div>
 </template>
@@ -22,5 +30,13 @@ import Aside from './components/Aside.vue';
     flex-grow: 1;
     height: 100%;
     max-height: 100%;
+}
+.no-collapsed-r {
+    transition: all 0.3s ease;
+    margin-right: 0;
+}
+.collapsed-r{
+    transition: all 0.3s ease;
+    margin-right: -175px;
 }
 </style>
