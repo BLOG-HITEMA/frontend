@@ -21,7 +21,7 @@ const {auth, disconnect} = useAuthService();
             </li>
         </ul>
 
-        <RouterLink v-if="!auth" class="me-2 buttonLien" data-test-conneted='conneted' to="/login">Connexion</RouterLink>
+        <RouterLink v-if="!auth" class="me-2 buttonLien" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
         <RouterLink v-if="!auth" class=" buttonLien" to="/register">Inscription</RouterLink>
         
         <Button v-if="auth" :classSup="'ms-auto'" :text="'Déconnexion'" :click="disconnect"/>
