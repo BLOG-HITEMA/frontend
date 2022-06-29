@@ -7,6 +7,7 @@ import Register from '../views/Register.vue';
 import Creation from '../views/Creation.vue';
 import Article from '../views/Article.vue';
 import Search from '../views/Search.vue';
+import User from '../views/User.vue';
 
 const {auth} = useAuthService();
 function isAuth(){
@@ -40,21 +41,20 @@ const router = createRouter({
             beforeEnter: [isAuth]
         },
         {
-            path: "/article/:id",
-            name: "article",
+            path: "/articles/:id",
+            name: "articles",
             component: Article
         },
         {
-<<<<<<< HEAD
             path: "/users/:id",
             name: "users",
             component: User
-=======
+        },
+        {
             path: "/search",
             name: "search",
             component: Search
->>>>>>> 8bd75475dcb6d08ee1587ff2acd666c450e24f7e
-        }
+        },
 
     ]
 })

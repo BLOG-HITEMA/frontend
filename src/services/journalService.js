@@ -20,7 +20,7 @@ const base_url = import.meta.env.VITE_URL_API;
 const journal = ref(null);
 
 function useJournalService(){
-    return {journal, getAll, createJournal,updateJournal, deleteJournal };
+    return {journal, getAll, createJournal,updateJournal, deleteJournal, searchJournal };
 }
 
 async function getAll(){
@@ -58,14 +58,20 @@ async function updateJournal(id, title){
 }
 
 async function deleteJournal(id){
-    const response = await axios.delete(`${base_url}/Journal/${id}`).then(res => res).catch(err => err);
+    const response = await axios.delete(`${base_url}/journals/${id}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast('Erreur lors de la supression de votre journal');
         return null;
     }
     return response;
 }
-
-
+async function searchJournal(search, page = 1){
+    const response = await axios.get(`${base_url}/journals/search/${page}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast('Erreur lors de la récupération des journaux');
+        return null;
+    }
+    return response.data;
+}
 
 export {useJournalService};

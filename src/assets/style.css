@@ -76,3 +76,20 @@ main{
     color: white;
     background-color: rgba(var(--blue-color), 0.7);
 }
+
+/* Toast */
+.Vue-Toastification__toast{
+    font-family: 'Poppins', sans-serif!important;
+}
+.Vue-Toastification__toast--info {
+    background-color: #5653B5!important;
+}
+.Vue-Toastification__toast--success {
+    background-color: #87D749!important;
+}
+.Vue-Toastification__toast--error {
+    background-color: #D76349!important;
+}
+.Vue-Toastification__toast--warning {
+    background-color: #FFC25D!important;
+}

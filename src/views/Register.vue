@@ -65,10 +65,10 @@ async function inscription(){
         <form @submit.prevent="inscription()" class="col-12 col-lg-6 col-md-8">
             <h1 class="title mb-0 my-5" data-test-h1="h1-login">Inscription</h1>
             <div class="form-group mb-2 my-4">
-                <Input :placeholder="'Nom'" :error="errorName" :type="'text'" v-model="name" />
+                <Input :placeholder="'Prénom'" :error="errorFirstname" :type="'text'" v-model="firstname" />
             </div>
             <div class="form-group mb-2 my-4">
-                <Input :placeholder="'Prénom'" :error="errorFirstname" :type="'text'" v-model="firstname" />
+                <Input :placeholder="'Nom'" :error="errorName" :type="'text'" v-model="name" />
             </div>
             <div class="form-group mb-2 my-4">
                 <Input :placeholder="'Email'" :error="errorEmail" :type="'email'" v-model="email" />

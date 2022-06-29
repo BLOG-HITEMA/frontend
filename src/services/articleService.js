@@ -40,7 +40,7 @@ async function getById(id){
     return response.data;
 }
 
-async function createArticle(title, content, published, image){
+async function createArticle(title, content, image, published = false){
     const data = {
         "title": title,
         "content": content,
@@ -98,7 +98,7 @@ async function searchArticle(search, page = 1){
         errorToast("Erreur lors de la recherche");
         return null;
     }
-    return response;
+    return response.data;
 }
 async function getArticleById(id){
     const response = await axios.get(`${base_url}/articles/${id}`).then(res => res).catch(err => err);

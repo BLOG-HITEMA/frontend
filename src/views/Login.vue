@@ -3,8 +3,6 @@ import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
 import { useAuthService } from "@/services/authService";
 import { useRouter } from "vue-router";
-import { useToastService } from "../services/toastService";
-/*import { useToast } from 'vue-toastification';*/
 import Joi from "joi";
 import { ref } from "vue";
 
