@@ -9,6 +9,7 @@ import Joi from "joi";
 import { ref } from "vue";
 
 const { connect } = useAuthService();
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
@@ -34,6 +35,7 @@ async function connexion() {
         errorEmail.value = "";
         errorPassword.value = "";
         const response = await connect(email.value, password.value);
+        response && (router.push({ name: "home" }))
     }
 }
 
