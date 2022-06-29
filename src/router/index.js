@@ -6,6 +6,7 @@ import Register from '../views/Register.vue';
 import Creation from '../views/Creation.vue';
 import Article from '../views/Article.vue';
 import Search from '../views/Search.vue';
+import User from '../views/User.vue';
 
 const {auth} = useAuthService();
 function isAuth(){
@@ -39,14 +40,19 @@ const router = createRouter({
             beforeEnter: [isAuth]
         },
         {
-            path: "/article/:id",
-            name: "article",
+            path: "/articles/:id",
+            name: "articles",
             component: Article
         },
         {
             path: "/search",
             name: "search",
             component: Search
+        },
+        {
+            path: "/users/:id",
+            name: "users",
+            component: User
         }
     ]
 })

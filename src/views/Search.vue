@@ -81,7 +81,7 @@ async function rechercher(){
                     <h5 class="card-title subtitle text-blue">{{art.title}}</h5>
                     <p :class="`card-text text ${!art.user && ('text-grey')}`">Par {{`${art.user ? art.user.firstname + " " + art.user.name : "inconu"}`}}</p>
                     <div class="d-flex align-items-center justify-content-between">
-                        <RouterLink class="linkAsBtn" :to="`/article/${art.id}`">Lire</RouterLink>
+                        <RouterLink class="linkAsBtn" :to="`/articles/${art.id}`">Lire</RouterLink>
                         <p v-if="art.journal" class="text mb-0 text-end">{{art.journal.title}}</p>
                         <p v-else class="text text-grey text-end mb-0">Aucun journal</p>
                     </div>
