@@ -3,14 +3,14 @@ import { useArticleService } from "@/services/articleService";
 import { onMounted, ref } from "vue";
 import { RouterLink } from 'vue-router';
 
-    
-const { articles, getAll } = useArticleService();
+const articles = ref(null);
+const { getAll } = useArticleService();
 
 onMounted(async () => {
-  await getAll();
+    const response = await getAll();
+    articles.value = response;
 });
 
-console.log(articles.value)
 </script>
 <template>
   <main class="container-fluid">
