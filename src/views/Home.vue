@@ -1,14 +1,16 @@
 <script setup>
 import { useArticleService } from "@/services/articleService";
 import { onMounted, ref } from "vue";
+import { RouterLink } from 'vue-router';
 
+    
 const { articles, getAll } = useArticleService();
 
 onMounted(async () => {
   await getAll();
 });
 
-
+console.log(articles.value)
 </script>
 <template>
   <main class="container-fluid">
@@ -20,7 +22,7 @@ onMounted(async () => {
         <div class="card-body">
           <h5 class="card-title">{{obj.title}}</h5>
           <p class="card-text">{{obj.content}}</p>
-          <a href="#" class="btn btn-primary">Détails</a>
+          <RouterLink class="linkAsBtn" :to="`/articles/${obj._id}`">Détails</RouterLink>
       </div>
     </div>
 </div>
