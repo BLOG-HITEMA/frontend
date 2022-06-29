@@ -20,7 +20,7 @@ const base_url = import.meta.env.VITE_URL_API;
 const articles = ref(null);
 
 function useArticleService(){
-    return {articles, getAll, createArticle, updateArticle, deleteArticle, askStoreInJournal, acceptArticle};
+    return {articles, getAll,getById, createArticle, updateArticle, deleteArticle, askStoreInJournal, acceptArticle};
 }
 
 async function getAll(){
@@ -32,6 +32,16 @@ async function getAll(){
     articles.value = response.data;
     return response;
 }
+async function getById(id){
+    const response = await axios.get(`${base_url}/articles/${id}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Une erreur est survenue");
+        return null;
+    }
+   
+    return response.data;
+}
+
 async function createArticle(title, content, published, image){
     const data = {
         "title": title,
