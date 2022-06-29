@@ -24,7 +24,7 @@ function useArticleService(){
 }
 
 async function getAll(){
-    const response = await axios.get(`${base_url}/articles/all`).then(res => res).catch(err => err);
+    const response = await axios.get(`${base_url}/articles/`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Une erreur est survenue");
         return null;
