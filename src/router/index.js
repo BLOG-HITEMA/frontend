@@ -4,10 +4,12 @@ import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import TestPage from '../views/TestPage.vue';
 import { useAuthService } from '../services/authService';
+import Creation from '../views/Creation.vue';
+import Article from '../views/Article.vue';
 
 const {auth} = useAuthService();
-function isAuth(){ // AuthGuard
-    if (auth.value && !auth.value.id) {
+function isAuth(){
+    if (!auth.value || !auth.value.id) {
         return {path: '/', name: 'home'};   
     }
 }
@@ -45,6 +47,17 @@ const router = createRouter({
           path: '/register',
           name: 'register',
           component: Register
+        },
+        {
+            path: "/creation",
+            name: "creation",
+            component: Creation,
+            beforeEnter: [isAuth]
+        },
+        {
+            path: "/article/:id",
+            name: "article",
+            component: Article
         }
     ]
 })

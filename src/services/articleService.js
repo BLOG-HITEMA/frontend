@@ -16,6 +16,7 @@ axios.interceptors.response.use(function (response) {
     return response;
 });
 
+const base_url = import.meta.env.VITE_URL_API;
 const articles = ref(null);
 
 function useArticleService(){
