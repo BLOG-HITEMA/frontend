@@ -36,7 +36,7 @@ import Button from './Button.vue';
         <div class="mt-auto mb-4 text-center">
             <RouterLink v-if="isMobile && !auth" class="d-block linkAsBtn mb-4" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
             <RouterLink v-if="isMobile && !auth" class="linkAsBtn" to="/register">Inscription</RouterLink>
-            <Button v-if="auth" :text="'Déconnexion'" @click="disconnect()" data-test-id="deconnexion"/>
+            <Button v-if="auth" :text="'Déconnexion'" :color="'red'" @click="disconnect()" data-test-id="deconnexion"/>
         </div>
     </aside>
 </template>

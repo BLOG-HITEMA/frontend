@@ -19,7 +19,7 @@ const {auth} = useAuthService();
     <div class="container-fluid">
         <Button @click="toggle()" :text="'<<'" :classSup="'me-3 py-2 px-3'" :color="'white'"/>
         <RouterLink class="brand title" to="/">Write it !</RouterLink>
-        <RouterLink v-if="auth" class="profil-link px-3 py-2" data-test-profil='loick' :to="`/users/${auth.id}`">Profil</RouterLink>
+        <RouterLink v-if="auth" class="profil-link px-3 py-2" data-test-profil='loick' :to="`/users/${auth._id}`">Profil</RouterLink>
         <RouterLink v-if="!isMobile && !auth" class="ms-auto me-2 linkAsBtn" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
         <RouterLink v-if="!isMobile && !auth" class="linkAsBtn" to="/register">Inscription</RouterLink>
     </div>

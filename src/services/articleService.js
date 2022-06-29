@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useToastService } from "./toastService";
 import { useRouter } from "vue-router";
 
-const {errorToast, successToast} = useToastService();
+const {errorToast} = useToastService();
 const router = useRouter();
 
 
@@ -24,7 +24,7 @@ function useArticleService(){
 }
 
 async function getAll(){
-    const response = await axios.get(`${base_url}/articles/`).then(res => res).catch(err => err);
+    const response = await axios.get(`${base_url}/articles`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Une erreur est survenue");
         return null;
@@ -32,7 +32,7 @@ async function getAll(){
     articles.value = response.data;
     return response;
 }
-async function createArticle(title, content, published, image){
+async function createArticle(title, content, image, published = false){
     const data = {
         "title": title,
         "content": content,
