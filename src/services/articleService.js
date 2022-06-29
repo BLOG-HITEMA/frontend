@@ -40,7 +40,7 @@ async function getById(id){
     return response.data;
 }
 
-async function createArticle(title, content, published, image){
+async function createArticle(title, content, image, published = false){
     const data = {
         "title": title,
         "content": content,
