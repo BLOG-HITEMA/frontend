@@ -16,7 +16,7 @@ const base_url = import.meta.env.VITE_URL_API;
 const auth = ref(null);
 
 function useAuthService(){
-    return {auth, connect, disconnect, autoConnect, register};
+    return {auth, connect, disconnect, autoConnect, register, updateUser};
 }
 
 async function connect(email, password){
@@ -57,6 +57,20 @@ async function register(email, password, name, firstname, role){
         return null;
     }
     successToast("Vous êtes inscrit !");
+    return response;
+}
+// mise a jour du profil
+async function updateUser(id, name, firstname){
+    const data = {
+        "id": id,
+        "name": name,
+        "firstname": firstname
+    }
+    const response = await axios.patch(`${base_url}/users/${id}`, data).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast('Erreur lors de la mise à jour de votre profil');
+        return null;
+    }
     return response;
 }
 
