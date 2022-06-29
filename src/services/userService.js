@@ -27,7 +27,14 @@ async function getUserById(id){
     }
     return response.data;
 }
-async function updateUser(){
+async function updateUser(id, name, firstname){
+    const response = await axios.patch(`${base_url}/users/${id}`, {"name": name, "firstname": firstname}).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast('Une erreur est survenue');
+        return null
+    }
+    successToast('Mise à jour de votre profil avec succès');
+    return response.data;
 
 }
 async function deleteUser(){

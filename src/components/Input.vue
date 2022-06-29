@@ -25,6 +25,10 @@ import { ref } from 'vue';
         },
         modelValue: {
             type: [String, Number, Array]
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     });
     defineEmits(['update:modelValue']);
@@ -41,19 +45,19 @@ import { ref } from 'vue';
 </script>
 <template>
     <div v-if="type !== 'radio' && type !== 'checkbox'">
-        <input :class="`text w-100 ${error ? 'mb-1 error' : 'mb-3'}`" :type="type" :placeholder="placeholder" :required="required" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+        <input :class="`text w-100 ${error ? 'mb-1 error' : 'mb-3'}`" :type="type" :placeholder="placeholder" :required="required" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :disabled="disabled">
         <p class="mb-3 text-red" v-if="error">{{error}}</p>
     </div>
     <div v-else-if="type === 'radio'">
         <label class="text mb-3" :for="rad.id" v-for="rad in list" :key="rad.id" @click="$emit('update:modelValue', $event.target.value)">
-            <input type="radio" :id="rad.id" :name="name" :value="rad.id">
+            <input type="radio" :id="rad.id" :name="name" :value="rad.id" :disabled="disabled">
             {{rad.text}}
         </label>
         <p class="mb-3 text-red" v-if="error">{{error}}</p>
     </div>
     <div v-else-if="type === 'checkbox'">
         <label class="text mb-3" :for="check.id" v-for="check in list" :key="check.id" @click="$emit('update:modelValue', updateCheckbox($event))">
-            <input type="checkbox" :id="check.id" :name="name" :value="check.id">
+            <input type="checkbox" :id="check.id" :name="name" :value="check.id" :disabled="disabled">
             {{check.text}}
         </label>
         <p class="mb-3 text-red" v-if="error">{{error}}</p>        
