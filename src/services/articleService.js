@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ref } from "vue";
 import { useToastService } from "./toastService";
 import { useRouter } from "vue-router";
 
@@ -17,10 +16,10 @@ axios.interceptors.response.use(function (response) {
 });
 
 const base_url = import.meta.env.VITE_URL_API;
-const articles = ref(null);
 
 function useArticleService(){
-    return {articles, getAll,getById, createArticle, updateArticle, deleteArticle, askStoreInJournal, acceptArticle};
+    return {getAll,getById, createArticle, updateArticle,
+        deleteArticle, askStoreInJournal, acceptArticle, searchArticle, getArticleById};
 }
 
 async function getAll(){
@@ -29,7 +28,6 @@ async function getAll(){
         errorToast("Une erreur est survenue");
         return null;
     }
-    articles.value = response.data;
     return response;
 }
 async function getById(id){
@@ -49,7 +47,7 @@ async function createArticle(title, content, published, image){
         "published": published,
         "image": image
     }
-    const response = await axios.post(`${base_url}/articles/create`, data).then(res => res).catch(err => err);
+    const response = await axios.post(`${base_url}/articles`, data).then(res => res).catch(err => err);
     if (response.status !== 201) {
         errorToast('Erreur lors de la création de votre article');
         return null;
@@ -63,7 +61,7 @@ async function updateArticle(id, title, content, published, image){
         "published": published,
         "image": image
     }
-    const response = await axios.patch(`${base_url}/articles/update/${id}`, data).then(res => res).catch(err => err);
+    const response = await axios.patch(`${base_url}/articles/${id}`, data).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast('Erreur lors de la mise à jour de votre article');
         return null;
@@ -71,7 +69,7 @@ async function updateArticle(id, title, content, published, image){
     return response;
 }
 async function deleteArticle(id){
-    const response = await axios.delete(`${base_url}/articles/delete/${id}`).then(res => res).catch(err => err);
+    const response = await axios.delete(`${base_url}/articles/${id}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast('Erreur lors de la supression de votre article');
         return null;
@@ -79,7 +77,7 @@ async function deleteArticle(id){
     return response;
 }
 async function askStoreInJournal(idArt, idJour){
-    const response = await axios.get(`${base_url}/store/${idArt}/in/${idJour}`).then(res => res).catch(err => err);
+    const response = await axios.post(`${base_url}/articles/store/${idArt}/in/${idJour}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de la demande d'adhésion au journal");
         return null;
@@ -87,12 +85,28 @@ async function askStoreInJournal(idArt, idJour){
     return response;
 }
 async function acceptArticle(accept, id){
-    const response = await axios.patch(`${base_url}/accept/${accept}/${id}`).then(res => res).catch(err => err);
+    const response = await axios.patch(`${base_url}/articles/accept/${accept}/${id}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de l'adhésion au journal");
         return null;
     }
     return response;    
+}
+async function searchArticle(search, page = 1){
+    const response = await axios.get(`${base_url}/articles/search/${page}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Erreur lors de la recherche");
+        return null;
+    }
+    return response;
+}
+async function getArticleById(id){
+    const response = await axios.get(`${base_url}/articles/${id}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Erreur lors de la récupération de votre article");
+        return null;
+    }
+    return response;
 }
 
 export {useArticleService};

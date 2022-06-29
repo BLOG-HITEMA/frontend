@@ -19,6 +19,7 @@ import Button from './Button.vue';
     <aside :class="active ? 'no-collapsed' : 'collapsed'">
         <nav>
             <ul class="navbar-nav me-auto text-center">
+            <img class="mx-auto mb-3" src="../assets/icon/signature.png" alt="logoBrand">
                 <li class="nav-item">
                     <RouterLink to="/" data-test-id="accueilAside">Accueil</RouterLink>
                 </li>
@@ -27,9 +28,6 @@ import Button from './Button.vue';
                 </li>
                 <li v-if="auth" class="nav-item">
                     <RouterLink to="/creation" data-test-id="creationAside">Création</RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink to="/test" data-test-id="testAside">TestPage</RouterLink>
                 </li>
             </ul>
         </nav>
@@ -73,5 +71,8 @@ a{
 a:hover{
     color: white;
     background-color: rgba(var(--blue-color));
+}
+img{
+    width: 35px;
 }
 </style>
