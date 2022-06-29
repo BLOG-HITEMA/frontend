@@ -25,8 +25,11 @@ import Button from './Button.vue';
                 <li class="nav-item">
                     <RouterLink to="/search" data-test-id="searchAside">Recherche</RouterLink>
                 </li>
+                <li v-if="auth" class="nav-item">
+                    <RouterLink to="/creation" data-test-id="creationAside">Création</RouterLink>
+                </li>
                 <li class="nav-item">
-                    <RouterLink to="/test" data-test-id="searchAside">TestPage</RouterLink>
+                    <RouterLink to="/test" data-test-id="testAside">TestPage</RouterLink>
                 </li>
             </ul>
         </nav>

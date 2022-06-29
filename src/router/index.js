@@ -9,7 +9,7 @@ import Article from '../views/Article.vue';
 
 const {auth} = useAuthService();
 function isAuth(){
-    if (!auth.value || !auth.value.id) {
+    if (!auth.value || !auth.value._id) {
         return {path: '/', name: 'home'};   
     }
 }
