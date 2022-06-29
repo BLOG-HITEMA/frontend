@@ -22,7 +22,7 @@ console.log(articles.value)
         <div class="card-body">
           <h5 class="card-title">{{obj.title}}</h5>
           <p class="card-text">{{obj.content}}</p>
-          <RouterLink class="linkAsBtn" :to="`/articles/${obj._id}`">Détails</RouterLink>
+          <RouterLink class="linkAsBtn" :to="`/article/${obj._id}`">Détails</RouterLink>
       </div>
     </div>
 </div>
