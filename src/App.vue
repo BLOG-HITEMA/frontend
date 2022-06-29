@@ -2,13 +2,22 @@
 import { RouterView } from 'vue-router';
 import Header from './components/Header.vue';
 import Aside from './components/Aside.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import dotenv from 'dotenv';
+import { useAuthService } from './services/authService';
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
     const activeAside = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? false : true);
     const isMobile = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false);
     const toggleActiveAside = () => {
         activeAside.value = !activeAside.value;
     }
+    const {autoConnect} = useAuthService();
+    onMounted(async () => {
+        const response = await autoConnect();
+    })
 </script>
     
 <template>

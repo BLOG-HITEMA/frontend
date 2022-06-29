@@ -4,9 +4,6 @@ import { mount } from '@vue/test-utils'
 import { RouterLink } from 'vue-router';
 import router from '../../router/index';
 
-
-
-
 vi.mock("@/services/authService.js", () => {
   function useAuthService() {
     return {
@@ -19,7 +16,6 @@ vi.mock("@/services/authService.js", () => {
 
 });
 
-
 describe('Test du header connecter', () => {
 
   it("Lien vers la page profil", async ()=> {
@@ -30,7 +26,7 @@ describe('Test du header connecter', () => {
     })
     const aRef = wrapper.find("a[data-test-profil='loick']");
     console.log(aRef.text())
-    expect(aRef.text()).toBe("Loick")
+    expect(aRef.text()).toBe("Profil")
   })
 
 })
