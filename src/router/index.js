@@ -1,21 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthService } from '../services/authService';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
-import TestPage from '../views/TestPage.vue';
-import { useAuthService } from '../services/authService';
 import Creation from '../views/Creation.vue';
 import Article from '../views/Article.vue';
+import Search from '../views/Search.vue';
 
 const {auth} = useAuthService();
 function isAuth(){
     if (!auth.value || !auth.value._id) {
         return {path: '/', name: 'home'};   
-    }
-}
-function isAdmin(){
-    if (auth.value && !auth.value.role) {
-        return {path: '/', name: "home"};
     }
 }
 
@@ -26,17 +21,6 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Home
-        },
-        {
-            path: '/testauth',
-            name: 'test-page-auth',
-            component: TestPage,
-            beforeEnter: [isAuth]
-        },
-        {
-            path: '/test',
-            name: 'test-page',
-            component: TestPage
         },
         {
             path: '/login',
@@ -58,6 +42,11 @@ const router = createRouter({
             path: "/article/:id",
             name: "article",
             component: Article
+        },
+        {
+            path: "/search",
+            name: "search",
+            component: Search
         }
     ]
 })
