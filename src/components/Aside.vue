@@ -25,15 +25,18 @@ import Button from './Button.vue';
                 <li class="nav-item">
                     <RouterLink to="/search" data-test-id="searchAside">Recherche</RouterLink>
                 </li>
+                <li v-if="auth" class="nav-item">
+                    <RouterLink to="/creation" data-test-id="creationAside">Création</RouterLink>
+                </li>
                 <li class="nav-item">
-                    <RouterLink to="/test" data-test-id="searchAside">TestPage</RouterLink>
+                    <RouterLink to="/test" data-test-id="testAside">TestPage</RouterLink>
                 </li>
             </ul>
         </nav>
         <div class="mt-auto mb-4 text-center">
             <RouterLink v-if="isMobile && !auth" class="d-block linkAsBtn mb-4" data-test-connexion='connexion' to="/login">Connexion</RouterLink>
             <RouterLink v-if="isMobile && !auth" class="linkAsBtn" to="/register">Inscription</RouterLink>
-            <Button v-if="auth" :text="'Déconnexion'" @click="disconnect()" data-test-id="deconnexion"/>
+            <Button v-if="auth" :text="'Déconnexion'" :color="'red'" @click="disconnect()" data-test-id="deconnexion"/>
         </div>
     </aside>
 </template>
