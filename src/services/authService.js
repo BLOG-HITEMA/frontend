@@ -34,7 +34,7 @@ async function autoConnect(){
     if (localStorage.getItem('token-projectm1')) {
         const response = await axios.get(`${base_url}/users/reconnect`).then(res => res).catch(err => err);
         if (response.status !== 200) {
-            errorToast("Vous êtes déconnecté");
+            warningToast("Vous êtes déconnecté");
             localStorage.removeItem('token-projectm1');
             return null;
         }

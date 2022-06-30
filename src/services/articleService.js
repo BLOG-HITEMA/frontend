@@ -93,11 +93,12 @@ async function acceptArticle(accept, id){
     return response;    
 }
 async function searchArticle(search, page = 1){
-    const response = await axios.get(`${base_url}/articles/search/${page}`).then(res => res).catch(err => err);
+    const response = await axios.post(`${base_url}/articles/search/${page}`, {"search": search}).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de la recherche");
         return null;
     }
+    console.log(response.data);
     return response.data;
 }
 async function getArticleById(id){
