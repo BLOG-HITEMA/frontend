@@ -80,9 +80,9 @@ async function update(){
                 </div>
             </form>
         <header v-else>
-          <h1> {{article.title}}</h1>
+          <h1 class="title"> {{article.title}}</h1>
 
-          <p> {{article.content}}</p>
+          <p class="text"> {{article.content}}</p>
         </header>
       </div>
     </div>
