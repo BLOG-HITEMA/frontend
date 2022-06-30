@@ -75,7 +75,7 @@ main{
     height: 48px;
     padding: 11px 24px;
     border-radius: 5px;
-    color: rgba(var(--white-color));
+    color: rgba(var(--white-color))!important;
     text-decoration: none;
 }
 .linkAsBtn:hover{

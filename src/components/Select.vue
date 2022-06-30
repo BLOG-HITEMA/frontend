@@ -20,6 +20,10 @@ import { ref } from 'vue';
         },
         modelValue: {
             type: [String, Number]
+        },
+        label: {
+            type: String,
+            default: 'Sélectionner une option'
         }
     });
     defineEmits(['update:modelValue']);
@@ -28,7 +32,7 @@ import { ref } from 'vue';
 <template>
     <div>
         <select :class="`${error ? 'mb-1 error' : 'mb-3'} ${classSup}`" :name="selectName"  :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :required="required">
-            <option class="text" value="">Sélectionner une option</option>
+            <option class="text" value="">{{label}}</option>
             <option class="text" v-for="opt in options" :key="opt.value" :value="opt.value">{{opt.text}}</option>
         </select>
         <p class="mb-3 text-red" v-if="error">{{error}}</p>
