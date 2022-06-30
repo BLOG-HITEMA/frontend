@@ -16,6 +16,8 @@ onMounted(async () => {
   article.value = response;
 });
 
+console.log(article.value)
+
 </script>
 <template>
   <main>
