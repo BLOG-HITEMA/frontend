@@ -7,7 +7,9 @@ import TextArea from '../components/TextArea.vue';
 import axios from 'axios';
 import Joi from 'joi';
 import { useArticleService } from '../services/articleService';
+import { useRouter } from 'vue-router';
     
+    const router = useRouter();
     const exampleImage = ref([]);
     const { auth } = useAuthService();
     const { createArticle } = useArticleService();
@@ -26,7 +28,7 @@ import { useArticleService } from '../services/articleService';
         exampleImage.push
     });
 
-    async function creation(){
+    async function creationArticle(){
         const scheme = Joi.object({
             title: Joi.string().required(),
             content: Joi.string().required(),
@@ -52,7 +54,7 @@ import { useArticleService } from '../services/articleService';
 <template>
     <main class="container-fluid">
         <div class="row justify-content-center">
-            <form @submit.prevent="creation()" class="col-12">
+            <form @submit.prevent="creationArticle()" class="col-12" v-if="auth && auth.role === 'author'">
                 <h1 class="title" data-test-h1="h1-login">Création d'un {{auth.role === "author" ? "article" : "journal"}}</h1>
                 <div class="form-group">
                     <Input :placeholder="'Titre'" :error="errorTitle" :type="'text'" v-model="title" />
