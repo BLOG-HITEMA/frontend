@@ -9,12 +9,13 @@ import Button from "../components/Button.vue";
 import Select from "../components/Select.vue";
 import { useArticleService } from "../services/articleService";
 import { useJournalService } from "../services/journalService";
+import TextArea from "../components/TextArea.vue";
 
 const router = useRouter();
 const {auth} = useAuthService();
 const {getUserById, updateUser} = useUserService();
 const { getArticleByIdUser, askStoreInJournal, acceptArticle, deleteArticle } = useArticleService();
-const { getJournalByIdUser, getAllJournal } = useJournalService();
+const { getJournalByIdUser, getAllJournal, deleteJournal, getPublishedInJournal } = useJournalService();
 const user = ref(null);
 const name = ref('');
 const errorName = ref('');
@@ -31,6 +32,10 @@ const errorJournalPublish = ref('');
 // Modal Accept article dans journal
 const modalAccept = ref(false);
 const idAccept = ref('');
+const boolAccept = ref(false);
+const messageAccept = ref('');
+// List published
+const publishedList = ref(null);
 
 onMounted(async () => {
     const response = await getUserById(id);
@@ -49,9 +54,9 @@ onMounted(async () => {
         }
         else if(response.role === 'editor'){
             const responseJournal = await getJournalByIdUser(response._id);
-            console.log(responseJournal)
             list.value = responseJournal ?? [];
-            console.log(list.value)
+            const responseArticlePublished = await getPublishedInJournal();
+            publishedList.value = responseArticlePublished ?? []
         }
     }
     firstname.value = response?.firstname ?? '';
@@ -118,6 +123,26 @@ async function supprimerArticle(id){
         }
     }
 }
+async function supprimerJournal(id){
+    const response = await deleteJournal(id);
+    if (response) {
+        if (list.value.indexOf(list.value.find((elm) => elm._id === id)) > -1) {
+            list.value.splice(list.value.indexOf(list.value.find((elm) => elm._id === id)), 1);
+        }
+    }
+}
+async function approuverArticle(accept, id, message){
+    const response = await acceptArticle(accept, id, message);
+    if (response) {
+        if (publishedList.value.indexOf(publishedList.value.find((elm) => elm._id === id)) > -1) {
+            publishedList.value.splice(publishedList.value.indexOf(publishedList.value.find((elm) => elm._id === id)), 1);
+        }
+        boolAccept.value = false;
+        idAccept.value = '';
+        modalAccept.value = false;
+        messageAccept.value = '';
+    }
+}
 </script>
 <template>
     <main class="container-fluid">
@@ -177,7 +202,7 @@ async function supprimerArticle(id){
             <div class="col-11 my-3" v-else>
                 <h2 class="subtitle">Ses journaux</h2>
             </div>
-            <div class="col-11">
+            <div class="col-11" v-if="list">
                 <div class="row align-items-center list-card" v-for="jour in list" :key="jour._id">
                     <div class="col-4">
                         <h3 class="text txtCut mb-0">{{jour.title}}</h3>
@@ -185,7 +210,7 @@ async function supprimerArticle(id){
                     <div class="col-2">
                         <p :class="`mb-0 text ${jour && jour.articles && jour.articles.length > 0 ? '' : 'text-grey'}`">{{jour && jour.articles && jour.articles.length > 0 ? jour.articles.length + ' articles' : 'Aucun articles'}}</p>
                     </div>
-                    <div class="col-6 text-end">
+                    <div class="col-6 text-end btn-section">
                         <RouterLink class="linkAsBtn" :to="`/journals/${jour._id}`">Consulter</RouterLink>
                         <Button :text="'Supprimer'"  :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="supprimerJournal()"/>
                     </div>
@@ -194,15 +219,18 @@ async function supprimerArticle(id){
             <div class="col-11 my-3" v-if="auth && auth._id === user._id">
                 <h2 class="subtitle">Mes demande en attentes</h2>
             </div>
-            <div class="col-11" v-if="auth && auth._id === user._id">
-                <div class="row align-items-center list-card" v-for="jour in list" :key="jour._id">
-                    <div class="col-4">
-                        <h3 class="text txtCut mb-0">{{jour.title}}</h3>
+            <div class="col-11" v-if="publishedList && auth && auth._id === user._id">
+                <div class="row align-items-center list-card" v-for="art in publishedList" :key="art._id">
+                    <div class="col-6">
+                        <h3 class="text txtCut mb-0">{{art.title}}</h3>
+                    </div>
+                    <div class="col-6 text-end btn-section">
+                        <Button :text="'Accepter'" :color="'green'" @click="() => {boolAccept = '1'; modalAccept = true, idAccept = art._id}"/>
+                        <Button :text="'Refuser'" :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="() => {boolAccept = '0'; modalAccept = true, idAccept = art._id}"/>
                     </div>
                 </div>                
             </div>
         </div>
-
         <div :class="`modal fade ${modalPublish && ('show d-block')}`" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -222,7 +250,25 @@ async function supprimerArticle(id){
                 </div>
             </div>
         </div>
-
+        
+        <div :class="`modal fade ${modalAccept && ('show d-block')}`" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Selection de journal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <TextArea :placeholder="'Message'" v-model="messageAccept" :label="'Message de refus / acceptation'" :classSup="'w-100'"/>
+                        <p class="mb-0 subtext text-grey">Vous pouvez laisser un message à destination de l'auteur</p>
+                    </div>
+                    <div class="modal-footer">
+                        <Button :text="boolAccept === '1' ? 'Approuver' : 'Refuser'" @click="approuverArticle(boolAccept, idAccept, messageAccept)"/>
+                        <Button :text="'Fermer'" :color="'red'" @click="() => {modalAccept = false; idAccept = '', boolAccept = false, messageAccept = ''}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 <style scoped>

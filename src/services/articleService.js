@@ -85,12 +85,13 @@ async function askStoreInJournal(idArt, idJour){
     successToast(response.data);
     return response.data;
 }
-async function acceptArticle(accept, id){
-    const response = await axios.patch(`${base_url}/articles/accept/${accept}/${id}`).then(res => res).catch(err => err);
+async function acceptArticle(accept, id, msg = ""){
+    const response = await axios.patch(`${base_url}/articles/accept/${accept}/${id}`, {"message": msg}).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de l'adhésion au journal");
         return null;
     }
+    successToast('Adhésion au journal réussie');
     return response.data;    
 }
 async function searchArticle(search, page = 1){

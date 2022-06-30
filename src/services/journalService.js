@@ -15,7 +15,7 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useJournalService(){
-    return {getAllJournal,getById, createJournal,updateJournal, deleteJournal, searchJournal, getJournalByIdUser };
+    return {getAllJournal,getById, createJournal,updateJournal, deleteJournal, searchJournal, getJournalByIdUser, getPublishedInJournal };
 }
 
 async function getAllJournal(){
@@ -82,6 +82,14 @@ async function getJournalByIdUser(id){
     const response = await axios.get(`${base_url}/journals/editor/${id}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de la récupération des journaux");
+        return null;
+    }
+    return response.data;
+}
+async function getPublishedInJournal(){
+    const response = await axios.get(`${base_url}/journals/articles/enAttente`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Erreur lors de la récupération des articles");
         return null;
     }
     return response.data;
