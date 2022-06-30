@@ -14,14 +14,12 @@ import Joi from 'joi';
 const router = useRouter();
 const { getById, updateJournal } = useJournalService();
 const { auth } = useAuthService();
-console.log(router.currentRoute.value.params);
 const { id } = router.currentRoute.value.params;
 const journal = ref(null);
 
 const title = ref('');
 const errorTitle = ref('');
 
-console.log(id);
 
 onMounted(async () => {
   const response = await getById(id);
@@ -74,13 +72,12 @@ async function update(){
 
       <div class="row justify-content-center" v-if="journal.articles && journal.articles.length > 0">
         <div class="col-12">
-            <h2 class="subtitle">Découvrez nos incroyables <span>articles</span> !</h2>
-        </div>
+            <h2 class="subtitle">Découvrez les <span>articles</span> assosier a notre journal !</h2>
+        </div> 
         <div class="card col-lg-3 col-10 m-2 px-0" v-for="art in journal.articles" :key="art.title">
             <img class="card-img-top" :src="art.image" :alt="art.title">
             <div class="card-body mb-2">
                 <h5 class="card-title subtitle text-blue txtCut" :title="art.title">{{art.title}}</h5>
-                <p :class="`card-text text ${!art.user && ('text-grey')}`">Par {{`${art.user ? art.user.firstname + " " + art.user.name : "inconu"}`}}</p>
                 <div class="d-flex align-items-center justify-content-between">
                     <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Lire</RouterLink>
                 </div>
