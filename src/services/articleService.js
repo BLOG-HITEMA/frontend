@@ -28,7 +28,7 @@ async function getAll(){
         errorToast("Une erreur est survenue");
         return null;
     }
-    return response;
+    return response.data;
 }
 async function getById(id){
     const response = await axios.get(`${base_url}/articles/${id}`).then(res => res).catch(err => err);
