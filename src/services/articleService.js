@@ -18,11 +18,11 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useArticleService(){
-    return {getAllArtcile,getById, createArticle, updateArticle,
+    return {getAllArticle,getById, createArticle, updateArticle,
         deleteArticle, askStoreInJournal, acceptArticle, searchArticle, getArticleById};
 }
 
-async function getAllArtcile(){
+async function getAllArticle(){
     const response = await axios.get(`${base_url}/articles`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Une erreur est survenue");
