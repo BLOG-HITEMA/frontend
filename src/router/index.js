@@ -56,7 +56,7 @@ const router = createRouter({
             component: Search
         },
         {
-            path: "/journal/:id",
+            path: "/journals/:id",
             name: "journal",
             component: Journal
         },
