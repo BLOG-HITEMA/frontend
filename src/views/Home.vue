@@ -31,7 +31,7 @@ onMounted(async () => {
     </div>
     <div class="row justify-content-center" v-if="articles && articles.length > 0">
         <div class="col-12">
-            <h2 class="subtitle">Découvrez nos incroyables  <span>articles</span> !</h2>
+            <h2 class="subtitle">Découvrez nos incroyables <span>articles</span> !</h2>
         </div>
         <div class="card col-lg-3 col-10 m-2 px-0" v-for="art in articles" :key="art.title">
             <img class="card-img-top" :src="art.image" :alt="art.title">
