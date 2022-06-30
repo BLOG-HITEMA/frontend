@@ -7,14 +7,18 @@ import TextArea from '../components/TextArea.vue';
 import axios from 'axios';
 import Joi from 'joi';
 import { useArticleService } from '../services/articleService';
+import { useJournalService } from '../services/journalService';
 import { useRouter } from 'vue-router';
     
     const router = useRouter();
     const exampleImage = ref([]);
     const { auth } = useAuthService();
     const { createArticle } = useArticleService();
+    const { createJournal } = useJournalService();
     const title = ref('');
     const errorTitle = ref('');
+    const titleJournal = ref('');
+    const errorTitleJournal = ref('');
     const content = ref('');
     const errorContent = ref('');
     const image = ref('');
@@ -50,12 +54,28 @@ import { useRouter } from 'vue-router';
             response && (router.push({ name: "home" }))
         }
     }
+    async function creationJournal(){
+        const scheme = Joi.object({
+            titleJournal: Joi.string().required(),
+        });
+            
+        const payload = { titleJournal: titleJournal.value};
+        const { error } = scheme.validate(payload, {abortEarly: false});    
+        if (error) {
+            errorTitleJournal.value = error.details.find(elm => elm.path[0] === "title")?.message ?? "";
+            return;
+        } else {
+            errorTitleJournal.value = "";
+            const response = await createJournal(titleJournal.value);
+            response && (router.push({ name: "home" }))
+        }
+    }
 </script>
 <template>
     <main class="container-fluid">
         <div class="row justify-content-center">
             <form @submit.prevent="creationArticle()" class="col-12" v-if="auth && auth.role === 'author'">
-                <h1 class="title" data-test-h1="h1-login">Création d'un {{auth.role === "author" ? "article" : "journal"}}</h1>
+                <h1 class="title" data-test-h1="h1-login">Création d'un article</h1>
                 <div class="form-group">
                     <Input :placeholder="'Titre'" :error="errorTitle" :type="'text'" v-model="title" />
                 </div>
@@ -68,7 +88,14 @@ import { useRouter } from 'vue-router';
                     </li>
                 </ul>
                 <p class="mb-3 text-red" v-if="errorImage">{{errorImage}}</p>
-                <Button :type="'submit'" :color="'green'" :text="`Créer mon ${auth.role === 'author' ? 'article' : 'journal'}`" :classSup="'w-100 mb-3'" />
+                <Button :type="'submit'" :color="'green'" :text="`Créer mon article`" :classSup="'w-100 mb-3'" />
+            </form>
+            <form @submit.prevent="creationJournal()" class="col-12" v-else-if="auth && auth.role === 'editor'">
+                <h1 class="title" data-test-h1="h1-login">Création d'un journal</h1>
+                <div class="form-group">
+                    <Input :placeholder="'Titre'" :error="errorTitleJournal" :type="'text'" v-model="titleJournal" />
+                </div>
+                <Button :type="'submit'" :color="'green'" :text="`Créer mon journal`" :classSup="'w-100 mb-3'" />
             </form>
         </div>
     </main>
