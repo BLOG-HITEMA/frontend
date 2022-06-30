@@ -19,7 +19,7 @@ const maxPages = ref(1);
 const list = ref({type: 'article', elm: []});
 
 onMounted(async () => {
-    const response = await searchArticle(search, 1);
+    const response = await searchArticle(search.value, 1);
     if (response) {
         page.value = response.page;
         maxPages.value = response.max_pages;
