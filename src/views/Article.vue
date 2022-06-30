@@ -27,6 +27,7 @@ onMounted(async () => {
   article.value = response;
   title.value = response?.title ?? '';
   content.value = response?.content ?? '';
+  console.log(response)
 
 });
 
@@ -68,7 +69,7 @@ async function update(){
     </section>
     <div class="container-fluid my-5">
        <div class="row justify-content-center">
-        <form class="col-lg-8 col-12" @submit.prevent="update()" v-if="auth && auth._id === article.user">
+        <form class="col-lg-8 col-12" @submit.prevent="update()" v-if="auth && auth._id === article.user._id">
                 <div class="form-input">
                      <Input :error="errorTitle" :type="'text'" v-model="title" :label="'Titre de votre article'"/>
                 </div>
@@ -80,9 +81,9 @@ async function update(){
                 </div>
             </form>
         <header v-else>
-          <h1> {{article.title}}</h1>
+          <h1 class="title"> {{article.title}}</h1>
 
-          <p> {{article.content}}</p>
+          <p class="text"> {{article.content}}</p>
         </header>
       </div>
     </div>
