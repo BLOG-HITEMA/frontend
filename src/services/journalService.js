@@ -15,7 +15,7 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useJournalService(){
-    return {getAllJournal, createJournal,updateJournal, deleteJournal, searchJournal };
+    return {getAllJournal, createJournal,updateJournal, deleteJournal, searchJournal, getJournalByIdUser };
 }
 
 async function getAllJournal(){
@@ -49,7 +49,7 @@ async function updateJournal(id, title){
         errorToast('Erreur lors de la mise à jour de votre journal');
         return null;
     }
-    return response;
+    return response.data;
 }
 
 async function deleteJournal(id){
@@ -64,6 +64,14 @@ async function searchJournal(search, page = 1){
     const response = await axios.get(`${base_url}/journals/search/${page}`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast('Erreur lors de la récupération des journaux');
+        return null;
+    }
+    return response.data;
+}
+async function getJournalByIdUser(id){
+    const response = await axios.get(`${base_url}/journals/editor/${id}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Erreur lors de la récupération des journaux");
         return null;
     }
     return response.data;

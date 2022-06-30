@@ -18,7 +18,7 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useArticleService(){
-    return {getAllArticle,getById, createArticle, updateArticle,
+    return {getAllArticle,getById, createArticle, updateArticle, getArticleByIdUser,
         deleteArticle, askStoreInJournal, acceptArticle, searchArticle, getArticleById};
 }
 
@@ -55,19 +55,17 @@ async function createArticle(title, content, image, published = false){
     successToast('Félicitation pour la création de votre article')
     return response;
 }
-async function updateArticle(id, title, content, published, image){
+async function updateArticle(id, title, content){
     const data = {
         "title": title,
-        "content": content,
-        "published": published,
-        "image": image
+        "content": content
     }
     const response = await axios.patch(`${base_url}/articles/${id}`, data).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast('Erreur lors de la mise à jour de votre article');
         return null;
     }
-    return response;
+    return response.data;
 }
 async function deleteArticle(id){
     const response = await axios.delete(`${base_url}/articles/${id}`).then(res => res).catch(err => err);
@@ -99,7 +97,6 @@ async function searchArticle(search, page = 1){
         errorToast("Erreur lors de la recherche");
         return null;
     }
-    console.log(response.data);
     return response.data;
 }
 async function getArticleById(id){
@@ -108,7 +105,15 @@ async function getArticleById(id){
         errorToast("Erreur lors de la récupération de votre article");
         return null;
     }
-    return response;
+    return response.data;
+}
+async function getArticleByIdUser(id){
+    const response = await axios.get(`${base_url}/articles/author/${id}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Erreur lors de la récupération des articles");
+        return null;
+    }
+    return response.data;
 }
 
 export {useArticleService};
