@@ -1,11 +1,7 @@
 import axios from "axios";
-import { ref } from "vue";
 import { useToastService } from "./toastService";
-import { useRouter } from "vue-router";
 
 const {errorToast, successToast} = useToastService();
-const router = useRouter();
-
 
 axios.interceptors.request.use(function (config) {
     config.headers['Authorization'] = `Bearer ${localStorage.getItem('token-projectm1')}` || "";
@@ -17,10 +13,9 @@ axios.interceptors.response.use(function (response) {
 });
 
 const base_url = import.meta.env.VITE_URL_API;
-const journal = ref(null);
 
 function useJournalService(){
-    return {journal, getAllJournal, createJournal,updateJournal, deleteJournal, searchJournal };
+    return {getAllJournal, createJournal,updateJournal, deleteJournal, searchJournal };
 }
 
 async function getAllJournal(){
@@ -29,8 +24,7 @@ async function getAllJournal(){
         errorToast("Une erreur est survenue");
         return null;
     }
-    journal.value = response.data;
-    return response;
+    return response.data;
 }
 
 async function createJournal(title){
