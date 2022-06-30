@@ -78,10 +78,10 @@ async function rechercher(){
             <div class="card col-lg-3 col-10 m-2 px-0" v-for="art in list.elm" :key="art.title">
                 <img class="card-img-top" :src="art.image" :alt="art.title">
                 <div class="card-body mb-2">
-                    <h5 class="card-title subtitle text-blue">{{art.title}}</h5>
+                    <h5 class="card-title subtitle text-blue txtCut" :title="art.title">{{art.title}}</h5>
                     <p :class="`card-text text ${!art.user && ('text-grey')}`">Par {{`${art.user ? art.user.firstname + " " + art.user.name : "inconu"}`}}</p>
                     <div class="d-flex align-items-center justify-content-between">
-                        <RouterLink class="linkAsBtn" :to="`/articles/${art.id}`">Lire</RouterLink>
+                        <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Lire</RouterLink>
                         <p v-if="art.journal" class="text mb-0 text-end">{{art.journal.title}}</p>
                         <p v-else class="text text-grey text-end mb-0">Aucun journal</p>
                     </div>
@@ -91,9 +91,9 @@ async function rechercher(){
         <div class="row justify-content-center" v-else-if="list['type'] === 'journal'">
             <div class="card col-lg-3 col-10 m-2" v-for="jour in list.elm" :key="jour.title">
                 <div class="card-body mb-2">
-                    <h5 class="card-title subtitle text-blue">{{jour.title}}</h5><p :class="`card-text text ${!jour.user && ('text-grey')}`">Par {{`${jour.user ? jour.user.firstname + " " + jour.user.name : "inconu"}`}}</p>
+                    <h5 class="card-title subtitle text-blue txtCut" :title="jour.title">{{jour.title}}</h5><p :class="`card-text text ${!jour.user && ('text-grey')}`">Par {{`${jour.user ? jour.user.firstname + " " + jour.user.name : "inconu"}`}}</p>
                     <div class="d-flex align-items-center justify-content-between">
-                        <RouterLink class="linkAsBtn" :to="`/journal/${jour.id}`">Consulter</RouterLink>
+                        <RouterLink class="linkAsBtn" :to="`/journal/${jour._id}`">Consulter</RouterLink>
                         <p v-if="jour.articles && jour.articles.length > 0" class="text mb-0 text-end">{{jour.articles.length}} articles</p>
                         <p v-else class="text text-grey text-end mb-0">Aucun article</p>
                     </div>
