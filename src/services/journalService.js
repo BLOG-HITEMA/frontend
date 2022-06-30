@@ -15,7 +15,7 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useJournalService(){
-    return {getAllJournal, createJournal,updateJournal, deleteJournal, searchJournal, getJournalByIdUser };
+    return {getAllJournal,getById, createJournal,updateJournal, deleteJournal, searchJournal, getJournalByIdUser };
 }
 
 async function getAllJournal(){
@@ -24,6 +24,16 @@ async function getAllJournal(){
         errorToast("Une erreur est survenue");
         return null;
     }
+    return response.data;
+}
+
+async function getById(id){
+    const response = await axios.get(`${base_url}/journals/${id}`).then(res => res).catch(err => err);
+    if (response.status !== 200) {
+        errorToast("Une erreur est survenue");
+        return null;
+    }
+   
     return response.data;
 }
 
