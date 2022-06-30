@@ -2,7 +2,7 @@ import axios from "axios";
 import { useToastService } from "./toastService";
 import { useRouter } from "vue-router";
 
-const {errorToast} = useToastService();
+const {errorToast, successToast} = useToastService();
 const router = useRouter();
 
 
@@ -18,11 +18,11 @@ axios.interceptors.response.use(function (response) {
 const base_url = import.meta.env.VITE_URL_API;
 
 function useArticleService(){
-    return {getAll,getById, createArticle, updateArticle,
+    return {getAllArtcile,getById, createArticle, updateArticle,
         deleteArticle, askStoreInJournal, acceptArticle, searchArticle, getArticleById};
 }
 
-async function getAll(){
+async function getAllArtcile(){
     const response = await axios.get(`${base_url}/articles`).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Une erreur est survenue");
@@ -52,6 +52,7 @@ async function createArticle(title, content, image, published = false){
         errorToast('Erreur lors de la création de votre article');
         return null;
     }
+    successToast('Félicitation pour la création de votre article')
     return response;
 }
 async function updateArticle(id, title, content, published, image){
