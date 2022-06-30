@@ -13,7 +13,7 @@ import { useJournalService } from "../services/journalService";
 const router = useRouter();
 const {auth} = useAuthService();
 const {getUserById, updateUser} = useUserService();
-const { getArticleByIdUser, askStoreInJournal, acceptArticle } = useArticleService();
+const { getArticleByIdUser, askStoreInJournal, acceptArticle, deleteArticle } = useArticleService();
 const { getJournalByIdUser, getAllJournal } = useJournalService();
 const user = ref(null);
 const name = ref('');
@@ -47,9 +47,11 @@ onMounted(async () => {
                 }
             }
         }
-        else{
+        else if(response.role === 'editor'){
             const responseJournal = await getJournalByIdUser(response._id);
+            console.log(responseJournal)
             list.value = responseJournal ?? [];
+            console.log(list.value)
         }
     }
     firstname.value = response?.firstname ?? '';
@@ -108,8 +110,13 @@ async function publish(){
     journalPublish.value = '';
     idPublish.value = '';
 }
-async function supprimerArticle(){
-
+async function supprimerArticle(id){
+    const response = await deleteArticle(id);
+    if (response) {
+        if (list.value.indexOf(list.value.find((elm) => elm._id === id)) > -1) {
+            list.value.splice(list.value.indexOf(list.value.find((elm) => elm._id === id)), 1);
+        }
+    }
 }
 </script>
 <template>
@@ -155,7 +162,7 @@ async function supprimerArticle(){
                     <div class="col-6 text-end btn-section" v-if="auth && auth._id === user._id">
                         <Button :text="'Publier'" :classSup="'me-lg-2 mb-2 mb-lg-0'" :color="'green'" @click="() => {modalPublish = true; idPublish = art._id}" v-if="!art.published && !art.journal"/>
                         <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Modifier</RouterLink>
-                        <Button :text="'Supprimer'"  :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="supprimerArticle()"/>
+                        <Button :text="'Supprimer'"  :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="supprimerArticle(art._id)"/>
                     </div>
                     <div class="col-6 text-end" v-else>
                         <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Lire</RouterLink>
@@ -164,29 +171,35 @@ async function supprimerArticle(){
             </div>
         </div>
         <div class="row justify-content-center mt-3" v-else-if="user && user.role === 'editor'">
-            <div class="col-12" v-if="auth && auth._id === user._id">
+            <div class="col-11 my-3" v-if="auth && auth._id === user._id">
                 <h2 class="subtitle">Mes journaux</h2>
             </div>
-            <div class="col-12" v-else>
+            <div class="col-11 my-3" v-else>
                 <h2 class="subtitle">Ses journaux</h2>
             </div>
             <div class="col-11">
                 <div class="row align-items-center list-card" v-for="jour in list" :key="jour._id">
-                    <!--<div class="col-4">
-                        <h3 class="text txtCut mb-0">{{art.title}}</h3>
+                    <div class="col-4">
+                        <h3 class="text txtCut mb-0">{{jour.title}}</h3>
                     </div>
                     <div class="col-2">
-                        <p :class="`text mb-0 ${art.published ? 'text-green' : art.journal ? 'text-orange' : 'text-grey'}`">{{art.published ? "Publié" : art.journal ? "En attente" : "Non publié"}}</p>
+                        <p :class="`mb-0 text ${jour && jour.articles && jour.articles.length > 0 ? '' : 'text-grey'}`">{{jour && jour.articles && jour.articles.length > 0 ? jour.articles.length + ' articles' : 'Aucun articles'}}</p>
                     </div>
-                    <div class="col-6 text-end btn-section" v-if="auth && auth._id === user._id">
-                        <Button :text="'Publier'" :classSup="'me-lg-2 mb-2 mb-lg-0'" :color="'green'" @click="() => {modalPublish = true; idPublish = art._id}" v-if="!art.published && !art.journal"/>
-                        <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Modifier</RouterLink>
-                        <Button :text="'Supprimer'"  :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="supprimerArticle()"/>
+                    <div class="col-6 text-end">
+                        <RouterLink class="linkAsBtn" :to="`/journals/${jour._id}`">Consulter</RouterLink>
+                        <Button :text="'Supprimer'"  :classSup="'ms-lg-2 mt-2 mt-lg-0'" :color="'red'" @click="supprimerJournal()"/>
                     </div>
-                    <div class="col-6 text-end" v-else>
-                        <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Lire</RouterLink>
-                    </div>-->
                 </div>
+            </div>
+            <div class="col-11 my-3" v-if="auth && auth._id === user._id">
+                <h2 class="subtitle">Mes demande en attentes</h2>
+            </div>
+            <div class="col-11" v-if="auth && auth._id === user._id">
+                <div class="row align-items-center list-card" v-for="jour in list" :key="jour._id">
+                    <div class="col-4">
+                        <h3 class="text txtCut mb-0">{{jour.title}}</h3>
+                    </div>
+                </div>                
             </div>
         </div>
 

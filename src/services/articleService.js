@@ -2,7 +2,7 @@ import axios from "axios";
 import { useToastService } from "./toastService";
 import { useRouter } from "vue-router";
 
-const {errorToast, successToast} = useToastService();
+const {errorToast, successToast, warningToast} = useToastService();
 const router = useRouter();
 
 
@@ -73,7 +73,8 @@ async function deleteArticle(id){
         errorToast('Erreur lors de la supression de votre article');
         return null;
     }
-    return response;
+    warningToast('Suppression réussie');
+    return response.data;
 }
 async function askStoreInJournal(idArt, idJour){
     const response = await axios.post(`${base_url}/articles/store/${idArt}/in/${idJour}`).then(res => res).catch(err => err);
