@@ -12,7 +12,7 @@ import Joi from 'joi';
 
 
 const router = useRouter();
-const { getById } = useJournalService();
+const { getById, updateJournal } = useJournalService();
 const { auth } = useAuthService();
 console.log(router.currentRoute.value.params);
 const { id } = router.currentRoute.value.params;
@@ -26,8 +26,29 @@ console.log(id);
 onMounted(async () => {
   const response = await getById(id);
   journal.value = response;
-  console.log(response);
+  title.value = response?.title ?? '';
 });
+
+// fonction update pour la mise a jours des journal
+async function update(){
+    const scheme = Joi.object({
+        title: Joi.string().required()
+    });
+    const payload = { title: title.value};
+    const { error } = scheme.validate(payload, {abortEarly: false});
+    if (error) {
+        errorTitle.value = error.details.find(elm => elm.path[0] === "title")?.message ?? "";
+        return
+    }
+    else{
+        errorTitle.value = "";
+        const response = await updateJournal(id, title.value);
+        if (response) {
+            title.value = response.title;
+        }
+        response && (router.push({ name: "home" }))
+    }
+}
 
 
 
@@ -36,10 +57,18 @@ onMounted(async () => {
 <template>
   <main>
     
-    <div>
+    <div v-if="journal">
     <div class="container-fluid my-3">
        <div class="row justify-content-center">
-        <header v-if="journal">
+        <form class="col-lg-8 col-12" @submit.prevent="update()" v-if="auth && auth._id === journal.user._id">
+                <div class="form-input">
+                     <Input :error="errorTitle" :type="'text'" v-model="title" :label="'Titre de votre article'"/>
+                </div>
+                <div class="form-input">
+                    <Button :text="'Mettre à jour'" :classSup="'w-100'" :color="'orange'"/>
+                </div>
+            </form>
+        <header v-else>
           <h1 class="title">{{journal.title}} </h1>
           <p class="text">créer par {{journal.user.firstname}} {{journal.user.name}}</p>
 

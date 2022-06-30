@@ -55,7 +55,7 @@ async function updateJournal(id, title){
         "title": title
     }
     const response = await axios.patch(`${base_url}/journals/${id}`, data).then(res => res).catch(err => err);
-    if (response.status !== 200) {
+    if (response.status !== 201) {
         errorToast('Erreur lors de la mise à jour de votre journal');
         return null;
     }
