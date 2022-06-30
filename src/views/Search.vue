@@ -42,11 +42,11 @@ async function rechercher(){
         errorType.value = "";
         let response = null;
         if (type.value === "article") {
-            response = await searchArticle(search, 1);
+            response = await searchArticle(search.value, 1);
             response && (list.value = {type: 'article', elm: response.articles} ?? {type: 'article', elm: []});
         }
         else if(type.value === "journal"){
-            response = await searchJournal(search, 1);
+            response = await searchJournal(search.value, 1);
             response && (list.value = {type: 'journal', elm: response.journals} ?? {type: 'journal', elm: []});
         }
         if (response) {
