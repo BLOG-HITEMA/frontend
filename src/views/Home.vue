@@ -54,7 +54,7 @@ onMounted(async () => {
             <div class="card-body mb-2">
                 <h5 class="card-title subtitle text-blue txtCut" :title="jour.title">{{jour.title}}</h5><p :class="`card-text text ${!jour.user && ('text-grey')}`">Par {{`${jour.user ? jour.user.firstname + " " + jour.user.name : "inconu"}`}}</p>
                 <div class="d-flex align-items-center justify-content-between">
-                    <RouterLink class="linkAsBtn" :to="`/journal/${jour._id}`">Consulter</RouterLink>
+                    <RouterLink class="linkAsBtn" :to="`/journals/${jour._id}`">Consulter</RouterLink>
                     <p v-if="jour.articles && jour.articles.length > 0" class="text mb-0 text-end">{{jour.articles.length}} articles</p>
                     <p v-else class="text text-grey text-end mb-0">Aucun article</p>
                 </div>

@@ -5,6 +5,7 @@ import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Creation from '../views/Creation.vue';
 import Article from '../views/Article.vue';
+import Journal from '../views/Journal.vue';
 import Search from '../views/Search.vue';
 import User from '../views/User.vue';
 
@@ -53,6 +54,11 @@ const router = createRouter({
             path: "/search",
             name: "search",
             component: Search
+        },
+        {
+            path: "/journals/:id",
+            name: "journal",
+            component: Journal
         },
 
     ]

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useToastService } from "./toastService";
 import { useRouter } from "vue-router";
 
-const {errorToast, successToast} = useToastService();
+const {errorToast, successToast, warningToast} = useToastService();
 const router = useRouter();
 
 
@@ -73,7 +73,8 @@ async function deleteArticle(id){
         errorToast('Erreur lors de la supression de votre article');
         return null;
     }
-    return response;
+    warningToast('Suppression réussie');
+    return response.data;
 }
 async function askStoreInJournal(idArt, idJour){
     const response = await axios.post(`${base_url}/articles/store/${idArt}/in/${idJour}`).then(res => res).catch(err => err);
@@ -81,15 +82,17 @@ async function askStoreInJournal(idArt, idJour){
         errorToast("Erreur lors de la demande d'adhésion au journal");
         return null;
     }
-    return response;
+    successToast(response.data);
+    return response.data;
 }
-async function acceptArticle(accept, id){
-    const response = await axios.patch(`${base_url}/articles/accept/${accept}/${id}`).then(res => res).catch(err => err);
+async function acceptArticle(accept, id, msg = ""){
+    const response = await axios.patch(`${base_url}/articles/accept/${accept}/${id}`, {"message": msg}).then(res => res).catch(err => err);
     if (response.status !== 200) {
         errorToast("Erreur lors de l'adhésion au journal");
         return null;
     }
-    return response;    
+    successToast('Adhésion au journal réussie');
+    return response.data;    
 }
 async function searchArticle(search, page = 1){
     const response = await axios.post(`${base_url}/articles/search/${page}`, {"search": search}).then(res => res).catch(err => err);

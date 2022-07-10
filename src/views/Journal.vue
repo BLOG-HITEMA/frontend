@@ -1,6 +1,6 @@
 <script setup>
-import { useArticleService } from "@/services/articleService";
-import { useUserService } from "../services/userService";
+import { useJournalService } from "@/services/journalService";
+import { useToastService } from "../services/toastService";
 import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useRouter } from "vue-router";
@@ -12,78 +12,78 @@ import Joi from 'joi';
 
 
 const router = useRouter();
-const { getById, updateArticle } = useArticleService();
+const { getById, updateJournal } = useJournalService();
 const { auth } = useAuthService();
 const { id } = router.currentRoute.value.params;
-const article = ref(null);
+const journal = ref(null);
 
 const title = ref('');
 const errorTitle = ref('');
-const content = ref('');
-const errorContent = ref('');
+
 
 onMounted(async () => {
   const response = await getById(id);
-  article.value = response;
+  journal.value = response;
   title.value = response?.title ?? '';
-  content.value = response?.content ?? '';
-  console.log(response)
-
 });
 
-// fonction update pour la mise a jours des artcile
+// fonction update pour la mise a jours des journal
 async function update(){
     const scheme = Joi.object({
-        title: Joi.string().required(),
-        content: Joi.string().required()
+        title: Joi.string().required()
     });
-    const payload = { title: title.value, content: content.value};
+    const payload = { title: title.value};
     const { error } = scheme.validate(payload, {abortEarly: false});
     if (error) {
         errorTitle.value = error.details.find(elm => elm.path[0] === "title")?.message ?? "";
-        errorContent.value = error.details.find(elm => elm.path[0] === "content")?.message ?? "";
         return
     }
     else{
         errorTitle.value = "";
-        errorContent.value = "";
-        const response = await updateArticle(id, title.value, content.value);
+        const response = await updateJournal(id, title.value);
         if (response) {
             title.value = response.title;
-            content.value = response.content;
         }
         response && (router.push({ name: "home" }))
     }
 }
+
+
 
   
 </script>
 <template>
   <main>
     
-    <div v-if="article">
-    <section
-      id="banner"
-      :style="`background-image:url(${article.image}); background-size:cover;`"
-    >
-    </section>
-    <div class="container-fluid my-5">
+    <div v-if="journal">
+    <div class="container-fluid my-3">
        <div class="row justify-content-center">
-        <form class="col-lg-8 col-12" @submit.prevent="update()" v-if="auth && auth._id === article.user._id">
+        <form class="col-lg-8 col-12" @submit.prevent="update()" v-if="auth && auth._id === journal.user._id">
                 <div class="form-input">
                      <Input :error="errorTitle" :type="'text'" v-model="title" :label="'Titre de votre article'"/>
-                </div>
-                <div class="form-input">
-                     <TextArea :id="'contentArticle'" :error="errorContent" v-model="content" :classSup="'w-100'" :label="'Contenu de votre article'"/>
                 </div>
                 <div class="form-input">
                     <Button :text="'Mettre à jour'" :classSup="'w-100'" :color="'orange'"/>
                 </div>
             </form>
         <header v-else>
-          <h1 class="title"> {{article.title}}</h1>
+          <h1 class="title">{{journal.title}} </h1>
+          <p class="text">créer par {{journal.user.firstname}} {{journal.user.name}}</p>
 
-          <p class="text"> {{article.content}}</p>
+      <div class="row justify-content-center" v-if="journal.articles && journal.articles.length > 0">
+        <div class="col-12">
+            <h2 class="subtitle">Découvrez les <span>articles</span> assosier a notre journal !</h2>
+        </div> 
+        <div class="card col-lg-3 col-10 m-2 px-0" v-for="art in journal.articles" :key="art.title">
+            <img class="card-img-top" :src="art.image" :alt="art.title">
+            <div class="card-body mb-2">
+                <h5 class="card-title subtitle text-blue txtCut" :title="art.title">{{art.title}}</h5>
+                <div class="d-flex align-items-center justify-content-between">
+                    <RouterLink class="linkAsBtn" :to="`/articles/${art._id}`">Lire</RouterLink>
+                </div>
+            </div>
+        </div>
+    </div>
         </header>
       </div>
     </div>
